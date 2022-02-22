@@ -84,7 +84,7 @@ exports.updateOutpass = async(req, res, next)=> {
 
         res
         .status(200)
-        .json({ success: "true", data: outpass, msg: `bootcamp ${req.params.id} updated successfully by ${req.admin.name}` });
+        .json({ success: "true", data: outpass, msg: `outpass ${req.params.id} updated successfully by ${req.admin.name}` });
     } catch (error) {
         res.status(400).json({ success: false, msg: "some unexpected error occured" });
     }
