@@ -10,7 +10,7 @@ exports.register = (async (req, res, next) => {
         // Check whether the user with this email exists already
         let user = await Admin.findOne({ email: req.body.email });
         if (user) {
-            return res.status(400).json({ success:"false" ,msg: "Sorry a user with this email already exists try a different email" })
+            return res.status(400).json({ success: "false", msg: "Sorry a user with this email already exists try a different email" })
         }
 
         const { name, email, password } = req.body;
@@ -21,13 +21,13 @@ exports.register = (async (req, res, next) => {
             email,
             password
         });
-    
+
         // Create Token
         const token = admin.getSignedJwtToken();
-    
+
         res.status(200).json({ success: true, token });
     } catch (error) {
-        return res.status(400).json({success: false, msg: "Some Error Occured"});
+        return res.status(400).json({ success: false, msg: "Some Error Occured" });
     }
 });
 
@@ -37,55 +37,117 @@ exports.register = (async (req, res, next) => {
 // @access    Public
 exports.login = (async (req, res, next) => {
     try {
-     
-    const { email, password } = req.body;
 
-    // Validate email & password
-    if (!email || !password) {
-        return res.status(400).json({ success: false, msg: "Please provide an email and password" });
-    }
+        const { email, password } = req.body;
 
-    // Check for admin
-    const admin = await Admin.findOne({ email }).select('+password');
-
-    if (!admin) {
-        return res.status(401).json({ success: false, msg: "Invalid Credentials" });
-    }
-
-    // Check if password matches
-    const isMatch = await admin.matchPassword(password);
-
-
-    if (!isMatch) {
-        return res.status(401).json({ success: false, msg: "Invalid Credentials" });
-    }
-
-    // Create Token
-    const token = admin.getSignedJwtToken();
-    const data = {
-        admin: {
-            id: admin.id,
-            name: admin.name
+        // Validate email & password
+        if (!email || !password) {
+            return res.status(400).json({ success: false, msg: "Please provide an email and password" });
         }
-    }
 
-    res.status(200).json({ success: true ,msg:`Login Successful Welcome: ${admin.name}` , token, data });   
+        // Check for admin
+        const admin = await Admin.findOne({ email }).select('+password');
+
+        if (!admin) {
+            return res.status(401).json({ success: false, msg: "Invalid Credentials" });
+        }
+
+        // Check if password matches
+        const isMatch = await admin.matchPassword(password);
+
+
+        if (!isMatch) {
+            return res.status(401).json({ success: false, msg: "Invalid Credentials" });
+        }
+
+        // Create Token
+        const token = admin.getSignedJwtToken();
+        const data = {
+            admin: {
+                id: admin.id,
+                name: admin.name
+            }
+        }
+
+        res.status(200).json({ success: true, msg: `Login Successful Welcome: ${admin.name}`, token, data });
     } catch (error) {
-        return res.status(400).json({ success: false, msg: "Some Unexpected Error Occured"})
+        return res.status(400).json({ success: false, msg: "Some Unexpected Error Occured" })
     }
 })
 
 
- 
-// @desc      Get current logged in user
-// @route     GET /api/v1/auth/me
+
+// @desc      Get current logged in admin
+// @route     GET /api/v1/auth/admin
 // @access    Private
 exports.getMe = (async (req, res, next) => {
-    // user is already available in req due to the protect middleware
-    const admin = req.admin;
-  
-    res.status(200).json({
-      success: true,
-      data: admin,
-    });
-  });
+    try {
+        // user is already available in req due to the protect middleware
+        const admin = req.admin;
+
+        res.status(200).json({
+            success: true,
+            data: admin,
+        });
+    } catch (error) {
+        return res.status(400).json({ success: false, msg: "Some Unexpected Error Occured" })
+
+    }
+});
+
+
+// @desc      Update password
+// @route     PUT /api/v1/auth/updatepassword
+// @access    Private
+exports.updatePassword = async (req, res, next) => {
+
+    try {
+        const admin = await Admin.findById(req.admin.id).select("+password");
+
+        // Check current password
+        if (!(await admin.matchPassword(req.body.currentPassword))) {
+            return res.status(401).json({ success: false, msg: "Password is Incorrect" });
+        }
+
+        admin.password = req.body.newPassword;
+        await admin.save();
+
+        // Create Token
+        const token = admin.getSignedJwtToken();
+
+        res.status(200).json({ success: true, msg: "Password Changed Successfully", token });
+
+    } catch (error) {
+        return res.status(400).json({ success: false, msg: "Some Unexpected Error Occured" })
+    }
+}
+
+
+// @desc      Update admin details
+// @route     PUT /api/v1/auth/updatedetails
+// @access    Private
+exports.updateDetails = (async (req, res, next) => {
+
+    try {
+
+        const fieldsToUpdate = {
+            name: req.body.name,
+            email: req.body.email,
+        };
+
+        const admin = await Admin.findByIdAndUpdate(req.admin.id, fieldsToUpdate, {
+            new: true,
+            runValidators: true,
+        });
+
+        res.status(200).json({
+            success: true,
+            data: admin,
+        });
+
+    } catch (error) {
+        return res.status(400).json({ success: false, msg: "Some Unexpected Error Occured" })
+
+    }
+
+});
