@@ -4,7 +4,7 @@ const sendEmail = require("../utils/sendEmail")
 
 // @desc Get all Outpass Applications
 // @route GET /api/v1/outpass
-// @access Admin
+// @access User
 exports.getOutpasses = async (req, res, next) => {
 
     try {
@@ -19,7 +19,7 @@ exports.getOutpasses = async (req, res, next) => {
 
 // @desc Get single Outpass Applications
 // @route GET /api/v1/outpass/:id
-// @access Admin
+// @access User
 exports.getOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findById(req.params.id);
@@ -51,7 +51,7 @@ exports.createOutpass = async (req, res, next) => {
 
 // @desc Delete Outpass Application
 // @route DELETE /api/v1/outpass/:id
-// @access Admin
+// @access User
 exports.deleteOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findByIdAndDelete(req.params.id);
@@ -71,7 +71,7 @@ exports.deleteOutpass = async (req, res, next) => {
 
 // @desc Update Outpass Application
 // @route PUT /api/v1/bootcamps/:id
-// @access Admin
+// @access User
 exports.updateOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findByIdAndUpdate(req.params.id, req.body, {
@@ -85,9 +85,9 @@ exports.updateOutpass = async (req, res, next) => {
 
         res
             .status(200)
-            .json({ success: "true", data: outpass, msg: `outpass ${req.params.id} updated successfully by ${req.admin.name}` });
+            .json({ success: "true", data: outpass, msg: `outpass ${req.params.id} updated successfully by ${req.user.name}` });
 
-        const message = `Your Outpass Details have been modified by ${req.admin.name}, to status: ${outpass.outpassStatus}`
+        const message = `Your Outpass Details have been modified by ${req.user.name}, to status: ${outpass.outpassStatus}`
         console.log(message);
         await sendEmail({
             email: outpass.email,
