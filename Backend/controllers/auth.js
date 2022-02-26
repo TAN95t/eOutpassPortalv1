@@ -1,7 +1,6 @@
 const Admin = require('../models/Admin');
 
 
-
 // @desc      Register Admin
 // @route     POST /api/v1/auth/register
 // @access    Public
@@ -144,8 +143,8 @@ exports.updateDetails = (async (req, res, next) => {
             success: true,
             data: admin,
         });
-
-    } catch (error) {
+    } 
+    catch (error) {
         return res.status(400).json({ success: false, msg: "Some Unexpected Error Occured" })
 
     }

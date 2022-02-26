@@ -1,4 +1,5 @@
 const Outpass = require("../models/Outpass");
+const sendEmail = require("../utils/sendEmail")
 
 
 // @desc Get all Outpass Applications
@@ -85,6 +86,15 @@ exports.updateOutpass = async(req, res, next)=> {
         res
         .status(200)
         .json({ success: "true", data: outpass, msg: `outpass ${req.params.id} updated successfully by ${req.admin.name}` });
+
+        const message = `Your Outpass Details have been modified by ${req.admin.name}, to status: ${outpass.outpassStatus}`
+        console.log(message);
+            await sendEmail({
+                email: outpass.email,
+                subject: 'Outpass Status Update',
+                message,
+            });
+
     } catch (error) {
         res.status(400).json({ success: false, msg: "some unexpected error occured" });
     }
