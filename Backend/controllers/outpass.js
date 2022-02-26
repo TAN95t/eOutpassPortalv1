@@ -14,7 +14,7 @@ exports.getOutpasses = async (req, res, next) => {
     } catch (error) {
         return res.status(400).json({ success: false, msg: "Some unexpected error occured" });
     }
-    
+
 }
 
 // @desc Get single Outpass Applications
@@ -28,12 +28,12 @@ exports.getOutpass = async (req, res, next) => {
             return res.status(400).json({ success: false, msg: `outpass with id: ${req.params.id} not found` });
         }
 
-        res.status(200).json({success: true, msg: `outpass with id ${req.params.id} found`, data: outpass});
+        res.status(200).json({ success: true, msg: `outpass with id ${req.params.id} found`, data: outpass });
 
-    } catch (error) {    
+    } catch (error) {
         res.status(400).json({ success: false, msg: "some unexpected error occured" });
     }
-    
+
 }
 
 // @desc Create Outpass Application
@@ -44,7 +44,7 @@ exports.createOutpass = async (req, res, next) => {
         const outpass = await Outpass.create(req.body)
         res.status(200).json({ success: true, msg: "Outpass Application created" });
     } catch (error) {
-        res.status(500).json({success: false, msg: "some error occured"});
+        res.status(500).json({ success: false, msg: "some error occured" });
     }
 
 }
@@ -56,7 +56,7 @@ exports.deleteOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findByIdAndDelete(req.params.id);
 
-        res.status(200).json({success: true, msg: `Outpass Application with id: ${req.params.id} deleted `})
+        res.status(200).json({ success: true, msg: `Outpass Application with id: ${req.params.id} deleted ` })
 
         if (!outpass) {
             return res.status(400).json({ success: false, msg: `outpass with id: ${req.params.id} not found` });
@@ -65,14 +65,14 @@ exports.deleteOutpass = async (req, res, next) => {
     } catch (error) {
         res.status(400).json({ success: false, msg: "some unexpected error occured" });
     }
-    
+
 }
 
 
 // @desc Update Outpass Application
 // @route PUT /api/v1/bootcamps/:id
 // @access Admin
-exports.updateOutpass = async(req, res, next)=> {
+exports.updateOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
@@ -84,28 +84,30 @@ exports.updateOutpass = async(req, res, next)=> {
         }
 
         res
-        .status(200)
-        .json({ success: "true", data: outpass, msg: `outpass ${req.params.id} updated successfully by ${req.admin.name}` });
+            .status(200)
+            .json({ success: "true", data: outpass, msg: `outpass ${req.params.id} updated successfully by ${req.admin.name}` });
 
         const message = `Your Outpass Details have been modified by ${req.admin.name}, to status: ${outpass.outpassStatus}`
         console.log(message);
-            await sendEmail({
-                email: outpass.email,
-                subject: 'Outpass Status Update',
-                message,
-            });
+        await sendEmail({
+            email: outpass.email,
+            subject: 'Outpass Status Update',
+            message,
+        });
+        console.log("Email sent");
+
 
     } catch (error) {
         res.status(400).json({ success: false, msg: "some unexpected error occured" });
     }
-    
+
 }
 
 
 // @desc Get Outpass Application status
 // @route GET /api/v1/outpass/:id
 // @access Public
-exports.outpassStatus = async (req,res,next)=> {
+exports.outpassStatus = async (req, res, next) => {
     try {
         const outpass = await Outpass.findById(req.params.id);
 
@@ -122,11 +124,11 @@ exports.outpassStatus = async (req,res,next)=> {
             IssuedBy: outpass.issuedBy
         }
 
-        res.status(200).json({success: true, msg: `outpass with id ${req.params.id} found`, data});
+        res.status(200).json({ success: true, msg: `outpass with id ${req.params.id} found`, data });
 
-        
-        
-    } catch (error) {    
+
+
+    } catch (error) {
         res.status(400).json({ success: false, msg: "some unexpected error occured" });
     }
 }
