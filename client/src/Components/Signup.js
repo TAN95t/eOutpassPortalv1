@@ -1,13 +1,11 @@
 import { Button, Modal, ModalBody, ModalHeader } from 'reactstrap'
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import axios from 'axios';
 
 const Signup = () => {
-    let navigate = useNavigate();
     const schema = yup.object({
         name: yup.string().max(50).required(),
         email: yup.string().email().required(),
@@ -24,14 +22,15 @@ const Signup = () => {
             console.log(response)
             if (response.data.success) {
                 localStorage.setItem('authtoken', response.data.token)
-                navigate('/')
             }
             else {
                 console.log("Error: ", response.data.msg)
             }
+            window.location = "/"
         }
         catch (e) {
             console.log("error: ", e)
+            window.location = "/"
         }
     }
 

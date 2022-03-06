@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import Signup from './Signup';
+import Login from './Login';
 import { Button } from 'reactstrap';
 
 const Navbar = () => {
@@ -31,7 +32,7 @@ const Navbar = () => {
               </li>
             </ul>
             {/* {!localStorage.getItem('authtoken') ? <form className="d-flex btn-group"> */}
-            <Link to="/Login" className="btn btn-outline-secondary " role="button" >Login</Link>
+            <Login />
             <Signup />
             {/* </form> : <button onClick={() => handleLogout} className="btn btn-outline-secondary ">Logout</button>} */}
           </div>
