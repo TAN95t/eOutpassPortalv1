@@ -31,12 +31,12 @@ const ApplicationForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
     const onSubmit = async (data) => {
         try {
-            await axios.post('http://localhost:5000/api/v1/outpass/', data)
+            const result = await axios.post('http://localhost:5000/api/v1/outpass/', data)
+            console.log(result)
         }
         catch (e) {
             console.log("Error: ", e)
         }
-        console.log(data);
         window.location = "/StatusForm";
     }
 

@@ -2,11 +2,7 @@ const mongoose = require('mongoose');
 
 const OutpassSchema = new mongoose.Schema(
     {
-        firstname: {
-            type: String,
-            required: true
-        },
-        lastname: {
+        name: {
             type: String,
             required: true
         },
@@ -50,7 +46,7 @@ const OutpassSchema = new mongoose.Schema(
             type: String,
             required: false
         },
-        appFormState: {
+        state: {
             type: String,
             required: false
         },

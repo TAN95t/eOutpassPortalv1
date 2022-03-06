@@ -3,7 +3,7 @@
   margin: 0;
   padding: 5rem 1rem;
   /* margin-bottom: 2rem; */
-  background-color: rgb(33, 36, 68);
+  background-color: rgb(26, 29, 61);
   border-radius: 0.3rem;
 }
 
@@ -13,4 +13,13 @@
 
 .heading {
   padding-top: 50px;
+}
+
+.homeLink {
+  color: white;
+  text-decoration: none;
+  font-family: "Manrope", sans-serif;
+}
+.homeLink:hover {
+  color: rgb(62, 187, 236);
 }

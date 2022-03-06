@@ -41,13 +41,20 @@ const Passes = () => {
 
     const [outpasses, setOutpass] = useState([]);
 
-    useEffect(() => {
-        axios.get('http://localhost:5000/outpass/')
-            .then(response => setOutpass(response.data))
-            .catch(err => console.log(err));
-        console.log('data fetched from database');
-    }, [])
+    async function fetchData() {
+        try {
+            const { data } = await axios.get('http://localhost:5000/api/v1/outpass')
+            console.log(data.data)
+            setOutpass(data.data)
+        }
+        catch (e) {
+            console.log("error: ", e)
+        }
+    }
 
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <>
