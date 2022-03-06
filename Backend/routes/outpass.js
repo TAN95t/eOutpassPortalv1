@@ -1,4 +1,3 @@
-
 const express = require('express');
 
 const { getOutpasses, getOutpass, createOutpass, deleteOutpass, updateOutpass, outpassStatus } = require("../controllers/outpass");
