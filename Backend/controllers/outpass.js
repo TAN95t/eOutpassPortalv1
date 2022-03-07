@@ -41,7 +41,7 @@ exports.getOutpass = async (req, res, next) => {
 // @access Public
 exports.createOutpass = async (req, res, next) => {
     try {
-        const outpass = await Outpass.create(req.body)
+        const outpass = await Outpass.create(req.body);
         res.status(200).json({ success: true, msg: "Outpass Application created" });
     } catch (error) {
         res.status(500).json({ success: false, msg: "some error occured" });

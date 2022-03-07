@@ -78,6 +78,10 @@ const OutpassSchema = new mongoose.Schema(
             enum: ['applied', 'issued', 'rejected'],
             default: 'applied'
         },
+        userId: {
+            type: String,
+            required: false
+        },
         issuedBy: {
             type: String,
             required: false
