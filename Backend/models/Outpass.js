@@ -79,7 +79,8 @@ const OutpassSchema = new mongoose.Schema(
             default: 'applied'
         },
         userId: {
-            type: String,
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
             required: false
         },
         issuedBy: {
@@ -88,6 +89,8 @@ const OutpassSchema = new mongoose.Schema(
         }
     }
 );
+
+
 
 
 module.exports = mongoose.model('Outpass', OutpassSchema);
