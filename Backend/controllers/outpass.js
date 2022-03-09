@@ -1,25 +1,44 @@
+const { match } = require("assert");
 const Outpass = require("../models/Outpass");
 const sendEmail = require("../utils/sendEmail")
 
 
 // @desc Get all Outpass Applications
 // @route GET /api/v1/outpass
-// @access User
+// @access Private/Warden
 exports.getOutpasses = async (req, res, next) => {
 
     try {
-        const outpass = await Outpass.find();
 
-        res.status(200).json({ success: true, msg: "all outpass applications", data: outpass })
+        const outpass = await Outpass.find({ outpassStatus: "applied" });
+
+        res.status(200).json({ success: true, count: outpass.length, msg: "all outpass applications", data: outpass })
     } catch (error) {
         return res.status(400).json({ success: false, msg: "Some unexpected error occured" });
     }
 
 }
 
+
+// @desc Get all Outpass Applications associated to a user
+// @route GET /api/v1/outpass/useroutpasses
+// @access Private/Student
+exports.getUserOutpasses = async (req, res, next) => {
+    try {
+        const outpass = await Outpass.find({ userId: req.user.id });
+
+        res.status(200).json({ success: true, msg: `all outpass applications associated to user ${req.user.id}`, data: outpass })
+    } catch (error) {
+        return res.status(400).json({ success: false, msg: "Some unexpected error occured" });
+
+    }
+}
+
+
+
 // @desc Get single Outpass Applications
 // @route GET /api/v1/outpass/:id
-// @access User
+// @access Public
 exports.getOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findById(req.params.id);
@@ -38,10 +57,11 @@ exports.getOutpass = async (req, res, next) => {
 
 // @desc Create Outpass Application
 // @route POST /api/v1/outpass
-// @access Public
+// @access Private/Student
 exports.createOutpass = async (req, res, next) => {
     try {
-        const outpass = await Outpass.create(req.body)
+        req.body.userId = req.user.id;
+        const outpass = await Outpass.create(req.body);
         res.status(200).json({ success: true, msg: "Outpass Application created" });
     } catch (error) {
         res.status(500).json({ success: false, msg: "some error occured" });
@@ -51,7 +71,7 @@ exports.createOutpass = async (req, res, next) => {
 
 // @desc Delete Outpass Application
 // @route DELETE /api/v1/outpass/:id
-// @access User
+// @access Private/Warden
 exports.deleteOutpass = async (req, res, next) => {
     try {
         const outpass = await Outpass.findByIdAndDelete(req.params.id);

@@ -82,12 +82,19 @@ const OutpassSchema = new mongoose.Schema(
             enum: ['applied', 'issued', 'rejected'],
             default: 'applied'
         },
+        userId: {
+            type: mongoose.Schema.ObjectId,
+            ref: "User",
+            required: false
+        },
         issuedBy: {
             type: String,
             required: false
         }
     }
 );
+
+
 
 
 module.exports = mongoose.model('Outpass', OutpassSchema);

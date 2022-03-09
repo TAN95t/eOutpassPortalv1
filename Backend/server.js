@@ -6,6 +6,7 @@ const cors = require('cors');
 // Route files
 const outpass = require("./routes/outpass");
 const auth = require("./routes/auth");
+const admin = require("./routes/admin");
 
 // Load env vars
 dotenv.config({ path: "./config/config.env" });
@@ -21,6 +22,7 @@ app.use(express.json());
 // Mount routers
 app.use("/api/v1/outpass", outpass);
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/admin", admin);
 
 const PORT = process.env.PORT || 5000;
 
