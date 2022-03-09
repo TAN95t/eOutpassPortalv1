@@ -1,3 +1,4 @@
+const { match } = require("assert");
 const Outpass = require("../models/Outpass");
 const sendEmail = require("../utils/sendEmail")
 
@@ -8,9 +9,10 @@ const sendEmail = require("../utils/sendEmail")
 exports.getOutpasses = async (req, res, next) => {
 
     try {
-        const outpass = await Outpass.find();
 
-        res.status(200).json({ success: true, msg: "all outpass applications", data: outpass })
+        const outpass = await Outpass.find({ outpassStatus: "applied" });
+
+        res.status(200).json({ success: true, count: outpass.length, msg: "all outpass applications", data: outpass })
     } catch (error) {
         return res.status(400).json({ success: false, msg: "Some unexpected error occured" });
     }
@@ -23,7 +25,7 @@ exports.getOutpasses = async (req, res, next) => {
 // @access Private/Student
 exports.getUserOutpasses = async (req, res, next) => {
     try {
-        const outpass = await Outpass.find({userId: req.user.id});
+        const outpass = await Outpass.find({ userId: req.user.id });
 
         res.status(200).json({ success: true, msg: `all outpass applications associated to user ${req.user.id}`, data: outpass })
     } catch (error) {
