@@ -31,8 +31,17 @@ const ApplicationForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(schema) });
     const onSubmit = async (data) => {
         try {
-            const result = await axios.post('http://localhost:5000/api/v1/outpass/', data)
-            console.log(result)
+            const token = localStorage.getItem('authtoken');
+            const result = await axios.post(
+                'http://localhost:5000/api/v1/outpass/',
+                data, {
+                headers: {
+                    'Authorization': `Bearer: ${token}`
+                }
+            })
+            if (result.data.success) {
+                console.log(result.data.msg);
+            }
         }
         catch (e) {
             console.log("Error: ", e)

@@ -19,7 +19,7 @@ const Signup = () => {
     const onSubmit = async (data) => {
         try {
             const response = await axios.post('http://localhost:5000/api/v1/auth/register', data)
-            console.log(response)
+            console.log(response.data.msg)
             if (response.data.success) {
                 localStorage.setItem('authtoken', response.data.token)
             }
