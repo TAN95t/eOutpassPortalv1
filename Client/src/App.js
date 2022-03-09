@@ -7,6 +7,7 @@ import Login from './Components/Login';
 import Signup from './Components/Signup';
 import Passes from './Components/Passes';
 import HomePage from './Components/HomePage';
+import LoginPrompt from './Components/LoginPrompt'
 import {
   BrowserRouter,
   Routes,
@@ -26,6 +27,7 @@ const App = () => {
               <Route path="StatusForm" element={<StatusForm />} />
               <Route path="Passes" element={<Passes />} />
               <Route path="Login" element={<Login />} />
+              <Route path="LoginPrompt" element={<LoginPrompt />} />
               <Route path="Signup" element={<Signup />} />
             </Route>
           </Routes>

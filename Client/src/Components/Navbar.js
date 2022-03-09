@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from 'react'
+import { Link } from "react-router-dom";
 import Signup from './Signup';
 import Login from './Login';
 import { Button } from 'reactstrap';
 
 const Navbar = () => {
-  let navigate = useNavigate();
   const handleLogout = () => {
     console.log('logout clicked')
     localStorage.removeItem('authtoken')
+    window.location.reload(false);
   }
 
   return (
@@ -34,11 +34,11 @@ const Navbar = () => {
               </ul>
               {/* {!localStorage.getItem('authtoken') ? <form className="d-flex btn-group"> */}
               {!localStorage.getItem('authtoken') ?
-                <div>
-                  <Login />
-                  <Signup />
+                <div className='d-flex'>
+                  <div className='mx-2'><Login /></div>
+                  <div className='mx-2'><Signup /></div>
                 </div>
-                : <button onClick={() => handleLogout}>Logout</button>}
+                : <Button onClick={handleLogout}>Logout</Button>}
               {/* </form> : <button onClick={() => handleLogout} className="btn btn-outline-secondary ">Logout</button>} */}
             </div>
           </div>

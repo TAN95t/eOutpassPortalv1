@@ -1,6 +1,30 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import ApplicationForm from './ApplicationForm'
+import Login from './Login'
+
+const HandleLinkRender = (props) => {
+
+    const token = localStorage.getItem('authtoken')
+
+    if (token) {
+        return (
+            <Link to={props.linkTo} className="homeLink">{props.data}</Link>
+        )
+    }
+    else {
+        return (
+            <>
+                <Link to="/LoginPrompt" className="homeLink">{props.data}</Link>
+            </>
+        )
+    }
+
+}
+
 
 const HomePage = () => {
+
     return (
         <>
             <div className="jumbotron">
@@ -12,12 +36,12 @@ const HomePage = () => {
                 <hr style={{ height: "5px", margin: "5rem 19rem", width: "50%", backgroundColor: "rgb(47, 223, 179)", color: "rgb(47, 223, 179)" }} />
                 <div className="row row-content mt-2">
                     <div className="col-12 col-md-4 offset-1 offset-md-4">
-                        <Link to="/ApplicationForm" className="homeLink"><h1>Outpass Application</h1></Link>
+                        <HandleLinkRender data={<h1>Outpass Application</h1>} linkTo="/ApplicationForm" />
                     </div>
                 </div>
                 <div className="row row-content mt-5">
                     <div className="col-12 col-md-4 offset-1 offset-md-4">
-                        <Link to="/StatusForm" className="homeLink"><h1>Outpass Status</h1></Link>
+                        <HandleLinkRender data={<h1>Outpass Status</h1>} linkTo="/StatusForm" />
                     </div>
                 </div>
                 <hr style={{ height: "5px", margin: "5rem 19rem", width: "50%", backgroundColor: "rgb(47, 223, 179)", color: "rgb(47, 223, 179)" }} />
@@ -29,4 +53,5 @@ const HomePage = () => {
         </>
     )
 }
+
 export default HomePage
