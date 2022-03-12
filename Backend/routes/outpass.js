@@ -10,6 +10,6 @@ router.route("/").post(protect, authorize('student'), createOutpass);
 router.route("/").get(protect, authorize('warden'), getOutpasses);
 router.route("/useroutpasses").get(protect, authorize('student'), getUserOutpasses);
 router.route("/:id").get(protect, authorize('warden'), getOutpass).delete(protect, authorize('warden'), deleteOutpass).put(protect, authorize('warden'), updateOutpass);
-router.route("/status/:id").get(protect, authorize('student'), outpassStatus);
+router.route("/status/:id").get(outpassStatus);
 
 module.exports = router;

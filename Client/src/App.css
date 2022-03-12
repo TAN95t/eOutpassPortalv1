@@ -23,3 +23,8 @@
 .homeLink:hover {
   color: rgb(62, 187, 236);
 }
+
+.togglePopover {
+  background-color: rgb(20, 24, 37) !important;
+  border: 0 !important;
+}

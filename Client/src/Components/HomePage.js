@@ -1,27 +1,5 @@
+import LoginPrompt from "./LoginPrompt"
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import ApplicationForm from './ApplicationForm'
-import Login from './Login'
-
-const HandleLinkRender = (props) => {
-
-    const token = localStorage.getItem('authtoken')
-
-    if (token) {
-        return (
-            <Link to={props.linkTo} className="homeLink">{props.data}</Link>
-        )
-    }
-    else {
-        return (
-            <>
-                <Link to="/LoginPrompt" className="homeLink">{props.data}</Link>
-            </>
-        )
-    }
-
-}
-
 
 const HomePage = () => {
 
@@ -36,12 +14,12 @@ const HomePage = () => {
                 <hr style={{ height: "5px", margin: "5rem 19rem", width: "50%", backgroundColor: "rgb(47, 223, 179)", color: "rgb(47, 223, 179)" }} />
                 <div className="row row-content mt-2">
                     <div className="col-12 col-md-4 offset-1 offset-md-4">
-                        <HandleLinkRender data={<h1>Outpass Application</h1>} linkTo="/ApplicationForm" />
+                        <LoginPrompt data={<h1>Outpass Application</h1>} linkTo="/ApplicationForm" dataFor="outpassApplication" />
                     </div>
                 </div>
                 <div className="row row-content mt-5">
                     <div className="col-12 col-md-4 offset-1 offset-md-4">
-                        <HandleLinkRender data={<h1>Outpass Status</h1>} linkTo="/StatusForm" />
+                        <LoginPrompt data={<h1>Applied Outpasses</h1>} linkTo="/AppliedOutpass" dataFor="outpassStatus" />
                     </div>
                 </div>
                 <hr style={{ height: "5px", margin: "5rem 19rem", width: "50%", backgroundColor: "rgb(47, 223, 179)", color: "rgb(47, 223, 179)" }} />

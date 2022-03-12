@@ -38,7 +38,7 @@ const Navbar = () => {
                   <div className='mx-2'><Login /></div>
                   <div className='mx-2'><Signup /></div>
                 </div>
-                : <Button onClick={handleLogout}>Logout</Button>}
+                : <Button onClick={handleLogout} color='danger'>Logout</Button>}
               {/* </form> : <button onClick={() => handleLogout} className="btn btn-outline-secondary ">Logout</button>} */}
             </div>
           </div>

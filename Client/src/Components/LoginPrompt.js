@@ -1,41 +1,44 @@
-import { useState } from "react"
-import { Popover, PopoverHeader, PopoverBody, Button, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap"
-import Login from "./Login"
+import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { Button, Popover, PopoverHeader, PopoverBody } from 'reactstrap'
 
-const LoginPrompt = () => {
-    return (
-        <div>
-            <Offcanvas
-                direction="top"
-                isOpen="true"
-            >
-                <OffcanvasHeader>
-                    Note!
-                </OffcanvasHeader>
-                <OffcanvasBody>
-                    <strong>
-                        You need to login first
-                    </strong>
-                    <Login />
-                </OffcanvasBody>
-            </Offcanvas>
-        </div>
-        // <div>
-        //     <Popover
-        //         flip
-        //         target="Popover1"
-        //         toggle={function noRefCheck() { }}
-        //         isOpen="true"
-        //     >
-        //         <PopoverHeader>
-        //             Popover Title
-        //         </PopoverHeader>
-        //         <PopoverBody>
-        //             Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-        //         </PopoverBody>
-        //     </Popover>
-        // </div>
-    )
+const LoginPrompt = ({ data, linkTo, dataFor }) => {
+
+    const token = localStorage.getItem('authtoken')
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    const togglePopover = () => {
+        setIsPopoverOpen(!isPopoverOpen)
+    }
+
+    console.log(dataFor + ' ' + isPopoverOpen)
+
+    if (token) {
+        return (
+            <Link to={linkTo} className="homeLink">{data}</Link>
+        )
+    }
+    else {
+        return (
+            <>
+                <Button onClick={togglePopover} id={dataFor} className='togglePopover'>
+                    <Link to="/" className="homeLink disabledCursor" onClick={(e) => { e.preventDefault() }}>{data}</Link>
+                </Button>
+                <Popover
+                    flip
+                    target={dataFor}
+                    trigger="legacy"
+                    toggle={togglePopover}
+                    isOpen={isPopoverOpen}
+                >
+                    <PopoverHeader>
+                        You need to Login first
+                    </PopoverHeader>
+
+                </Popover>
+            </>
+        )
+    }
+
 }
 
 export default LoginPrompt

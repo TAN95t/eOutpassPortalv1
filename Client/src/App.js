@@ -1,13 +1,14 @@
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from "./Components/Navbar";
-import ApplicationForm from './Components/ApplicationForm';
-import StatusForm from './Components/StatusForm';
-import Login from './Components/Login';
-import Signup from './Components/Signup';
-import Passes from './Components/Passes';
-import HomePage from './Components/HomePage';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Navbar from "./Components/Navbar"
+import ApplicationForm from './Components/ApplicationForm'
+import StatusForm from './Components/StatusForm'
+import Login from './Components/Login'
+import Signup from './Components/Signup'
+import Passes from './Components/Passes'
+import HomePage from './Components/HomePage'
 import LoginPrompt from './Components/LoginPrompt'
+import AppliedOutpass from './Components/AppliedOutpass'
 import {
   BrowserRouter,
   Routes,
@@ -29,6 +30,7 @@ const App = () => {
               <Route path="Login" element={<Login />} />
               <Route path="LoginPrompt" element={<LoginPrompt />} />
               <Route path="Signup" element={<Signup />} />
+              <Route path='AppliedOutpass' element={<AppliedOutpass />} />
             </Route>
           </Routes>
         </div>
