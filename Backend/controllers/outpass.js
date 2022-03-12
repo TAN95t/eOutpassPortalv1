@@ -64,7 +64,7 @@ exports.createOutpass = async (req, res, next) => {
         let userID = req.user.id;
         let outpassExists = await Outpass.findOne({ userId: userID, outpassStatus: ["applied"] });
         if (outpassExists) {
-            return res.status(400).json({ success: false, msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please delete the outpass to re-apply` });
+            return res.status(400).json({ success: false, msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please wait or delete the outpass to re-apply` });
         }
         else {
             req.body.userId = req.user.id;
