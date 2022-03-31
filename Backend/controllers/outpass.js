@@ -7,14 +7,16 @@ const sendEmail = require("../utils/sendEmail");
 // @access Private/Warden
 exports.getOutpasses = async (req, res, next) => {
   try {
-    const outpass = await Outpass.find({ outpassStatus: "applied" });
+    const outpass = await Outpass.find({ outpassStatus: ["applied"] });
 
-    res.status(200).json({
-      success: true,
-      count: outpass.length,
-      msg: "all outpass applications",
-      data: outpass,
-    });
+    res
+      .status(200)
+      .json({
+        success: true,
+        count: outpass.length,
+        msg: "all outpass applications",
+        data: outpass,
+      });
   } catch (error) {
     return res
       .status(400)
@@ -41,7 +43,7 @@ exports.getUserOutpasses = async (req, res, next) => {
   }
 };
 
-// @desc Get single Outpass Applications
+// @desc Get single Outpass Application
 // @route GET /api/v1/outpass/:id
 // @access Public
 exports.getOutpass = async (req, res, next) => {
@@ -72,9 +74,25 @@ exports.getOutpass = async (req, res, next) => {
 // @access Private/Student
 exports.createOutpass = async (req, res, next) => {
   try {
-    req.body.userId = req.user.id;
-    const outpass = await Outpass.create(req.body);
-    res.status(200).json({ success: true, msg: "Outpass Application created" });
+    let userID = req.user.id;
+    let outpassExists = await Outpass.findOne({
+      userId: userID,
+      outpassStatus: ["applied"],
+    });
+    if (outpassExists) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please wait or delete the outpass to re-apply`,
+        });
+    } else {
+      req.body.userId = req.user.id;
+      const outpass = await Outpass.create(req.body);
+      res
+        .status(200)
+        .json({ success: true, msg: "Outpass Application created" });
+    }
   } catch (error) {
     res.status(500).json({ success: false, msg: "some error occured" });
   }

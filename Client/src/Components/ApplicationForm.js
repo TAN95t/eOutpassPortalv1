@@ -3,18 +3,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect } from "react";
-var rn = require("random-number");
+// var rn = require("random-number");
 
 const ApplicationForm = () => {
-  useEffect(() => {
-    var gen = rn.generator({
-      min: 000000,
-      max: 1000000,
-      integer: true,
-    });
-    const randNum = gen();
-    console.log(randNum);
-  });
+  //   useEffect(() => {
+  //     var gen = rn.generator({
+  //       min: 000000,
+  //       max: 1000,
+  //       integer: true,
+  //     });
+  //     const randNum = gen();
+  //     console.log(randNum);
+  //   });
 
   const phoneRegExp =
     /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
