@@ -28,3 +28,16 @@
   background-color: rgb(20, 24, 37) !important;
   border: 0 !important;
 }
+.togglePopover:active {
+  border: 0 !important;
+}
+
+.outpassBox {
+  width: 70%;
+  height: 40%;
+  border: 5px;
+  margin: 10% 15%;
+  border-color: aqua;
+  border-style: double;
+  color: white;
+}

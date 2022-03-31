@@ -20,8 +20,9 @@ const LoginPrompt = ({ data, linkTo, dataFor }) => {
     else {
         return (
             <>
-                <Button onClick={togglePopover} id={dataFor} className='togglePopover'>
-                    <Link to="/" className="homeLink disabledCursor" onClick={(e) => { e.preventDefault() }}>{data}</Link>
+                <Button onClick={togglePopover} id={dataFor} className='togglePopover homeLink'>
+                    {data}
+                    {/* <Link to="/" className="homeLink disabledCursor" onClick={(e) => { e.preventDefault() }}></Link> */}
                 </Button>
                 <Popover
                     flip

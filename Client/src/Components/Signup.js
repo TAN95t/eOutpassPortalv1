@@ -44,7 +44,7 @@ const Signup = () => {
     // }
 
     return (
-        <div>
+        <div className='container'>
             <Button onClick={toggleModal} color="primary">
                 Signup
             </Button>

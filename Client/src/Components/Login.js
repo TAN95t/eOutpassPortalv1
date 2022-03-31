@@ -62,7 +62,7 @@ const Login = (props) => {
     //     setCredentials({ ...credentials, [e.target.name]: e.target.value })
     //}
     return (
-        <div>
+        <div className='container'>
             <Button onClick={toggleModal} color="primary">
                 Login
             </Button>
