@@ -165,7 +165,6 @@ exports.updateOutpass = async (req, res, next) => {
 // @route GET /api/v1/outpass/status
 // @access Public
 exports.outpassStatus = async (req, res, next) => {
-<<<<<<< HEAD
     try {
         console.log(req.query)
 
@@ -186,39 +185,6 @@ exports.outpassStatus = async (req, res, next) => {
 
         res.status(200).json({ success: true, msg: `outpass found`, data });
 
-
-
-    } catch (error) {
-        res.status(400).json({ success: false, msg: "some unexpected error occured" });
-=======
-  try {
-    const outpass = await Outpass.findOne({
-      registrationNo: req.body,
-    });
-
-    if (!outpass) {
-      return res.status(400).json({
-        success: false,
-        msg: `outpass with id: ${req.params.id} not found`,
-      });
->>>>>>> 311ce9e23f520d7c323376bcd1e7905cd4f74b83
-    }
-
-    const data = {
-      Name: outpass.name,
-      Email: outpass.email,
-      Phone: outpass.phone,
-      Registration: outpass.registrationNo,
-      Status: outpass.outpassStatus,
-      IssuedOn: outpass.toDate,
-      IssuedBy: outpass.issuedBy,
-    };
-
-    res.status(200).json({
-      success: true,
-      msg: `outpass with id ${req.params.id} found`,
-      data,
-    });
   } catch (error) {
     res
       .status(400)
