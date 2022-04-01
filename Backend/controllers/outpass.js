@@ -136,14 +136,16 @@ exports.updateOutpass = async (req, res, next) => {
 
 
 // @desc Get Outpass Application status
-// @route GET /api/v1/outpass/:id
+// @route GET /api/v1/outpass/status
 // @access Public
 exports.outpassStatus = async (req, res, next) => {
     try {
-        const outpass = await Outpass.findById(req.params.id);
+        console.log(req.query)
+
+        const outpass = await Outpass.findOne(req.query);
 
         if (!outpass) {
-            return res.status(400).json({ success: false, msg: `outpass with id: ${req.params.id} not found` });
+            return res.status(400).json({ success: false, msg: `outpass not found` });
         }
 
         const data = {
@@ -155,7 +157,7 @@ exports.outpassStatus = async (req, res, next) => {
             IssuedBy: outpass.issuedBy
         }
 
-        res.status(200).json({ success: true, msg: `outpass with id ${req.params.id} found`, data });
+        res.status(200).json({ success: true, msg: `outpass found`, data });
 
 
 

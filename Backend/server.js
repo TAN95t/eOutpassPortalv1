@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const color = require("colors");
 const connectDB = require('./config/db');
 const cors = require('cors');
+const morgan = require('morgan');
+
 // Route files
 const outpass = require("./routes/outpass");
 const auth = require("./routes/auth");
@@ -18,6 +20,8 @@ const app = express();
 app.use(cors());
 // Body Parser
 app.use(express.json());
+
+app.use(morgan('dev'))
 
 // Mount routers
 app.use("/api/v1/outpass", outpass);
