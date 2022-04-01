@@ -18,7 +18,7 @@ const Login = (props) => {
     });
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post('http://localhost:5000/api/v1/auth/register', data)
+            const response = await axios.post('http://localhost:5000/api/v1/auth/login', data)
             console.log(response)
             if (response.data.success) {
                 localStorage.setItem('authtoken', response.data.token)
@@ -62,7 +62,7 @@ const Login = (props) => {
     //     setCredentials({ ...credentials, [e.target.name]: e.target.value })
     //}
     return (
-        <div>
+        <div className='container'>
             <Button onClick={toggleModal} color="primary">
                 Login
             </Button>
