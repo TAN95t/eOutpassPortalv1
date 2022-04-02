@@ -19,6 +19,7 @@ router.route("/fetchstatus").get(outpassStatus);
 router.route("/create").post(protect, authorize('student'), createOutpass);
 router.route("/getalloutpasses").get(protect, authorize('warden'), getOutpasses);
 router.route("/useroutpasses").get(protect, authorize('student'), getUserOutpasses);
-router.route("/wardensport/:id").put(protect, authorize('warden'), updateOutpass);
+router.route("/wardenspermission/:id").put(protect, authorize('warden'), updateOutpass);
+router.route("/deleteoutpass/:id").delete(protect, authorize('student'), deleteOutpass);
 
 module.exports = router;

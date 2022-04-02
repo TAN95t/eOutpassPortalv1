@@ -3,11 +3,11 @@ const Outpass = require("../models/Outpass");
 const sendEmail = require("../utils/sendEmail");
 
 // @desc Get all Outpass Applications
-// @route GET /api/v1/outpass
+// @route GET /api/v1/outpass/getallutpasses
 // @access Private/Warden
 exports.getOutpasses = async (req, res, next) => {
   try {
-    const outpass = await Outpass.find({ outpassStatus: ["applied"] });
+    const outpass = await Outpass.find();
 
     res
       .status(200)
@@ -45,7 +45,7 @@ exports.getUserOutpasses = async (req, res, next) => {
 
 // @desc Get single Outpass Application
 // @route GET /api/v1/outpass/:id
-// @access Public
+// @access Private
 exports.getOutpass = async (req, res, next) => {
   try {
     const outpass = await Outpass.findById(req.params.id);
@@ -70,28 +70,20 @@ exports.getOutpass = async (req, res, next) => {
 };
 
 // @desc Create Outpass Application
-// @route POST /api/v1/outpass
+// @route POST /api/v1/outpass/create
 // @access Private/Student
 exports.createOutpass = async (req, res, next) => {
   try {
     let userID = req.user.id;
-    let outpassExists = await Outpass.findOne({
-      userId: userID,
-      outpassStatus: ["applied"],
-    });
+    console.log(userID)
+    const outpassExists = await Outpass.findOne({userId: userID});
     if (outpassExists) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please wait or delete the outpass to re-apply`,
-        });
-    } else {
+      return res.status(400).json({ success: false, msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please delete the outpass to re-apply` });
+    }
+    else {
       req.body.userId = req.user.id;
       const outpass = await Outpass.create(req.body);
-      res
-        .status(200)
-        .json({ success: true, msg: "Outpass Application created" });
+      res.status(200).json({ success: true, msg: "Outpass Application created" });
     }
   } catch (error) {
     res.status(500).json({ success: false, msg: "some error occured" });
@@ -99,7 +91,7 @@ exports.createOutpass = async (req, res, next) => {
 };
 
 // @desc Delete Outpass Application
-// @route DELETE /api/v1/outpass/:id
+// @route DELETE /api/v1/outpass/deleteoutpass/:id
 // @access Private/Warden
 exports.deleteOutpass = async (req, res, next) => {
   try {
@@ -124,7 +116,7 @@ exports.deleteOutpass = async (req, res, next) => {
 };
 
 // @desc Update Outpass Application
-// @route PUT /api/v1/bootcamps/:id
+// @route PUT /api/v1/outpass/wardenspermission/:id
 // @access User
 exports.updateOutpass = async (req, res, next) => {
   try {
@@ -162,28 +154,27 @@ exports.updateOutpass = async (req, res, next) => {
 };
 
 // @desc Get Outpass Application status
-// @route GET /api/v1/outpass/status
+// @route GET /api/v1/outpass/fetchstatus
 // @access Public
 exports.outpassStatus = async (req, res, next) => {
-    try {
-        console.log(req.query)
+  try {
+    console.log(req.query)
 
-        const outpass = await Outpass.findOne(req.query);
+    const outpass = await Outpass.findOne(req.query);
 
-        if (!outpass) {
-            return res.status(400).json({ success: false, msg: `outpass not found` });
-        }
+    if (!outpass) {
+      return res.status(400).json({ success: false, msg: `outpass not found` });
+    }
 
-        const data = {
-            Name: outpass.name,
-            Email: outpass.email,
-            Registration: outpass.registrationNo,
-            Status: outpass.outpassStatus,
-            IssuedOn: outpass.toDate,
-            IssuedBy: outpass.issuedBy
-        }
+    const data = {
+      Name: outpass.name,
+      Email: outpass.email,
+      Registration: outpass.registrationNo,
+      Status: outpass.outpassStatus,
+      IssuedBy: outpass.issuedBy
+    }
 
-        res.status(200).json({ success: true, msg: `outpass found`, data });
+    res.status(200).json({ success: true, msg: `outpass found`, data });
 
   } catch (error) {
     res

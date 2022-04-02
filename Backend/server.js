@@ -15,12 +15,12 @@ dotenv.config({ path: "./config/config.env" });
 
 // Connect to database
 connectDB();
-
+// incude express
 const app = express();
 app.use(cors());
 // Body Parser
 app.use(express.json());
-
+// request logger
 app.use(morgan('dev'))
 
 // Mount routers
