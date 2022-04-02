@@ -12,13 +12,15 @@ exports.register = (async (req, res, next) => {
             return res.status(400).json({ success: "false", msg: "Sorry a user with this email already exists try a different email" })
         }
 
-        const { name, email, password } = req.body;
+        const { name, email, registrationNo, password  } = req.body;
 
         // Create user
         const user = await User.create({
             name,
             email,
+            registrationNo,
             password
+            
         });
 
         // Create Token

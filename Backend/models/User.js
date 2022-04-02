@@ -1,11 +1,16 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { useEffect } = require('react');
 
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, 'Please add a name'],
+    },
+    registrationNo: {
+        type: Number,
+        required: [true, "please add your registration number"],
     },
     email: {
         type: String,
@@ -18,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user', 'student', 'admin', 'warden', 'teacherGardian'],
+        enum: ['student', 'admin', 'warden'],
         default: 'student',
     },
     password: {
