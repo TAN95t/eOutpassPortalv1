@@ -55,7 +55,7 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link
                     className="nav-link"
-                    /*style={localStorage.getItem('authtoken')?{display:"block"}:{display:'none'}}*/ to="/Passes"
+                    /*style={localStorage.getItem('authtoken')?{display:"block"}:{display:'none'}}*/ to="/"
                   >
                     Passes
                   </Link>

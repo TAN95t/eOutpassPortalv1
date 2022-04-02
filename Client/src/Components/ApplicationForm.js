@@ -68,11 +68,15 @@ const ApplicationForm = () => {
       );
       if (result.data.success) {
         console.log(result.data.msg);
+      } else {
+        alert("Outpass already created");
+        console.log(result.data.msg);
       }
     } catch (e) {
       console.log("Error: ", e);
+      alert("Outpass already created");
     }
-    window.location = "/StatusForm";
+    window.location = "/AppliedOutpass";
   };
 
   return (

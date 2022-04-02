@@ -22,7 +22,7 @@ router
 router
   .route("/:id")
   .get(protect, authorize("warden"), getOutpass)
-  .delete(protect, authorize("warden"), deleteOutpass)
+  .delete(protect, authorize("student"), deleteOutpass)
   .put(protect, authorize("warden"), updateOutpass);
 router.route("/status").get(outpassStatus);
 

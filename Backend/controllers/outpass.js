@@ -9,14 +9,12 @@ exports.getOutpasses = async (req, res, next) => {
   try {
     const outpass = await Outpass.find({ outpassStatus: ["applied"] });
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        count: outpass.length,
-        msg: "all outpass applications",
-        data: outpass,
-      });
+    res.status(200).json({
+      success: true,
+      count: outpass.length,
+      msg: "all outpass applications",
+      data: outpass,
+    });
   } catch (error) {
     return res
       .status(400)
@@ -80,12 +78,10 @@ exports.createOutpass = async (req, res, next) => {
       outpassStatus: ["applied"],
     });
     if (outpassExists) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please wait or delete the outpass to re-apply`,
-        });
+      return res.status(400).json({
+        success: false,
+        msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please wait or delete the outpass to re-apply`,
+      });
     } else {
       req.body.userId = req.user.id;
       const outpass = await Outpass.create(req.body);
@@ -167,7 +163,7 @@ exports.updateOutpass = async (req, res, next) => {
 exports.outpassStatus = async (req, res, next) => {
   try {
     const outpass = await Outpass.findOne({
-      registrationNo: req.body,
+      registrationNo: req.body.registrationNo,
     });
 
     if (!outpass) {

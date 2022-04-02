@@ -17,11 +17,17 @@ const StatusForm = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data) => {
-    console.log("submitted");
     try {
+      console.log("submitted");
+      const token = localStorage.getItem("authtoken");
       const result = await axios.get(
         "http://localhost:5000/api/v1/outpass/status",
-        data
+        data,
+        {
+          headers: {
+            Authorization: `Bearer: ${token}`,
+          },
+        }
       );
       if (result.data.success) {
         console.log(result.data.data);
