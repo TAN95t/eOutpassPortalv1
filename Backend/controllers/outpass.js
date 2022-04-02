@@ -167,7 +167,7 @@ exports.outpassStatus = async (req, res, next) => {
     }
 
     const data = {
-      Name: outpass.name,
+      name: outpass.firstname,
       Email: outpass.email,
       Registration: outpass.registrationNo,
       Status: outpass.outpassStatus,
