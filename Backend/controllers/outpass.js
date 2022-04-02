@@ -120,6 +120,9 @@ exports.deleteOutpass = async (req, res, next) => {
 // @access User
 exports.updateOutpass = async (req, res, next) => {
   try {
+    let warden = req.user.name;
+    console.log(warden)
+    req.body.issuedBy = warden;
     const outpass = await Outpass.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
