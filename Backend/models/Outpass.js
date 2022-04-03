@@ -86,7 +86,7 @@ const OutpassSchema = new mongoose.Schema({
     ref: "User",
     required: false,
   },
-  issuedBy: {
+  updatedBy: {
     type: String,
     required: false,
   },

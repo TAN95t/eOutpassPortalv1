@@ -24,7 +24,7 @@ exports.getOutpasses = async (req, res, next) => {
   }
 };
 
-// @desc Get all Outpass Applications associated to a user
+// @desc Get all Outpass Applications associated to the user
 // @route GET /api/v1/outpass/useroutpasses
 // @access Private/Student
 exports.getUserOutpasses = async (req, res, next) => {
@@ -117,12 +117,12 @@ exports.deleteOutpass = async (req, res, next) => {
 
 // @desc Update Outpass Application
 // @route PUT /api/v1/outpass/wardenspermission/:id
-// @access User
+// @access private/warden
 exports.updateOutpass = async (req, res, next) => {
   try {
     let warden = req.user.name;
     console.log(warden)
-    req.body.issuedBy = warden;
+    req.body.updatedBy = warden;
     const outpass = await Outpass.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -174,7 +174,7 @@ exports.outpassStatus = async (req, res, next) => {
       Email: outpass.email,
       Registration: outpass.registrationNo,
       Status: outpass.outpassStatus,
-      IssuedBy: outpass.issuedBy
+      updatedBy: outpass.updatedBy
     }
 
     res.status(200).json({ success: true, msg: `outpass found`, data });
