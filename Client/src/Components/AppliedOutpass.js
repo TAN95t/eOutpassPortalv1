@@ -32,8 +32,21 @@ const AppliedOutpass = () => {
     const userId = outpass[0].userId;
     const token = localStorage.getItem("authtoken");
     try {
-      await axios.delete("http://localhost:5000/api/v1/outpass/deleteOutpass");
-    } catch (e) {}
+      if (token) {
+        const response = await axios.delete(
+          `http://localhost:5000/api/v1/outpass/deleteOutpass/:${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer: ${token}`,
+            },
+          }
+        );
+      } else {
+        console.log("authentication error");
+      }
+    } catch (e) {
+      console.log("Error: " + e);
+    }
   };
 
   useEffect(() => {
