@@ -29,7 +29,8 @@ exports.getOutpasses = async (req, res, next) => {
 // @access Private/Student
 exports.getUserOutpasses = async (req, res, next) => {
   try {
-    const outpass = await Outpass.find({ userId: req.user.id });
+    console.log(req.user.id);
+    const outpass = await Outpass.findOne({ userId: req.user.id });
 
     res.status(200).json({
       success: true,
