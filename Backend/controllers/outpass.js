@@ -9,14 +9,12 @@ exports.getOutpasses = async (req, res, next) => {
   try {
     const outpass = await Outpass.find();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        count: outpass.length,
-        msg: "all outpass applications",
-        data: outpass,
-      });
+    res.status(200).json({
+      success: true,
+      count: outpass.length,
+      msg: "all outpass applications",
+      data: outpass,
+    });
   } catch (error) {
     return res
       .status(400)
@@ -76,15 +74,19 @@ exports.getOutpass = async (req, res, next) => {
 exports.createOutpass = async (req, res, next) => {
   try {
     let userID = req.user.id;
-    console.log(userID)
-    const outpassExists = await Outpass.findOne({userId: userID});
+    console.log(userID);
+    const outpassExists = await Outpass.findOne({ userId: userID });
     if (outpassExists) {
-      return res.status(400).json({ success: false, msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please delete the outpass to re-apply` });
-    }
-    else {
+      return res.status(400).json({
+        success: false,
+        msg: `an Outpass application already exists for : ${req.user.name} with status: ${outpassExists.outpassStatus},  please delete the outpass to re-apply`,
+      });
+    } else {
       req.body.userId = req.user.id;
       const outpass = await Outpass.create(req.body);
-      res.status(200).json({ success: true, msg: "Outpass Application created" });
+      res
+        .status(200)
+        .json({ success: true, msg: "Outpass Application created" });
     }
   } catch (error) {
     res.status(500).json({ success: false, msg: "some error occured" });
@@ -122,8 +124,10 @@ exports.deleteOutpass = async (req, res, next) => {
 exports.updateOutpass = async (req, res, next) => {
   try {
     let warden = req.user.name;
-    console.log(warden)
+
+    console.log(warden);
     req.body.updatedBy = warden;
+
     const outpass = await Outpass.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -162,7 +166,7 @@ exports.updateOutpass = async (req, res, next) => {
 // @access Public
 exports.outpassStatus = async (req, res, next) => {
   try {
-    console.log(req.query)
+    console.log(req.query);
 
     const outpass = await Outpass.findOne(req.query);
 
@@ -175,11 +179,9 @@ exports.outpassStatus = async (req, res, next) => {
       Email: outpass.email,
       Registration: outpass.registrationNo,
       Status: outpass.outpassStatus,
-      updatedBy: outpass.updatedBy
-    }
-
+      updatedBy: outpass.updatedBy,
+    };
     res.status(200).json({ success: true, msg: `outpass found`, data });
-
   } catch (error) {
     res
       .status(400)

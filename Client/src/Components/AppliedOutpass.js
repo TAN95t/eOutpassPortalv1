@@ -1,11 +1,12 @@
 // import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Button } from "reactstrap";
 
 const AppliedOutpass = () => {
   const [outpass, setOutpass] = useState([]);
 
-  async function fetchData() {
+  const fetchData = async () => {
     const token = localStorage.getItem("authtoken");
     try {
       if (token) {
@@ -25,7 +26,28 @@ const AppliedOutpass = () => {
     } catch (e) {
       console.log("error: ", e);
     }
-  }
+  };
+
+  const handleDelete = async () => {
+    const userId = outpass[0].userId;
+    const token = localStorage.getItem("authtoken");
+    try {
+      if (token) {
+        const response = await axios.delete(
+          `http://localhost:5000/api/v1/outpass/deleteOutpass/:${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer: ${token}`,
+            },
+          }
+        );
+      } else {
+        console.log("authentication error");
+      }
+    } catch (e) {
+      console.log("Error: " + e);
+    }
+  };
 
   useEffect(() => {
     fetchData();
@@ -78,6 +100,10 @@ const AppliedOutpass = () => {
                 <dt className="col-12 col-md-3"> To : </dt>
                 <dd className="col-12 col-md-9">{ele.toDate}</dd>
               </dl>
+              <Button color="primary" onClick={handleDelete}>
+                {" "}
+                Delete
+              </Button>
             </div>
           </div>
         );
