@@ -58,7 +58,7 @@ const ApplicationForm = () => {
     try {
       const token = localStorage.getItem("authtoken");
       const result = await axios.post(
-        "http://localhost:5000/api/v1/outpass/",
+        "http://localhost:5000/api/v1/outpass/create",
         data,
         {
           headers: {

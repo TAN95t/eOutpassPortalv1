@@ -1,71 +1,83 @@
-import { useEffect, useReducer, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Container } from 'reactstrap';
-import OutpassCard from './OutpassCard';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useEffect, useReducer, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Container } from "reactstrap";
+import OutpassCard from "./OutpassCard";
+import axios from "axios";
 
 const Passes = () => {
+  const [outpasses, setOutpass] = useState([]);
 
-    const outpasses = useSelector((state) => state.allOutpasses.outpasses)
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("authtoken");
+      const { data } = await axios.get(
+        "http://localhost:5000/api/v1/outpass/getalloutpasses",
+        {
+          headers: {
+            Authorization: `Bearer: ${token}`,
+          },
+        }
+      );
+      console.log(data.data);
+      setOutpass(data.data);
+    } catch (e) {
+      console.log("error: ", e);
+    }
+  };
 
-    // // const [outpasses, setOutpass] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    // // async function fetchData() {
-    // //     try {
-    // //         const { data } = await axios.get('http://localhost:5000/api/v1/outpass')
-    // //         console.log(data.data)
-    // //         setOutpass(data.data)
-    // //     }
-    // //     catch (e) {
-    // //         console.log("error: ", e)
-    // //     }
-    // // }
+  return (
+    <>
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          justifyContent: "left space-evenly",
+          flexWrap: "wrap",
+        }}
+      >
+        {outpasses.map((ele) => (
+          <OutpassCard outpass={ele} key={ele._id} />
+        ))}
+      </div>
+    </>
 
     // useEffect(() => {
-    //     fetchData()
-    // }, [])
+    //     (async () => {
+    //         const response = await axios.get('http://localhost:5000/outpass/')
+    //         await setOutpass(response.data);
+    //         console.log('data fetched from database');
+    //     })();
+    // }, []);
 
-    return (
-        <>
-            <div className="container" style={{ display: "flex", justifyContent: "left space-evenly", flexWrap: "wrap" }}>
-                {outpasses.map(ele => <OutpassCard outpass={ele} key={ele._id} />)}
-            </div>
-        </>
+    // const renderCard = () => {
+    //     console.log('renderCard called')
+    //     return outpasses.map(outpass => {
+    //         return <Outpass outpass={outpass} />
+    //     })
+    // }
 
-        // useEffect(() => {
-        //     (async () => {
-        //         const response = await axios.get('http://localhost:5000/outpass/')
-        //         await setOutpass(response.data);
-        //         console.log('data fetched from database');
-        //     })();
-        // }, []);
+    // const [state, dispatch] = useReducer(reducer, {
+    //     firstname: '', lastname: '', email: '', phone: '',
+    //     branch: '', regno: '', block: '', room: '', address1: '',
+    //     address2: '', city: '', formState: '', zip: '', description: '',
+    //     fromDate: new Date(), fromTime: '', toDate: new Date(), toTime: ''
+    // });
 
-        // const renderCard = () => {
-        //     console.log('renderCard called')
-        //     return outpasses.map(outpass => {
-        //         return <Outpass outpass={outpass} />
-        //     })
-        // }
+    // let navigate = useNavigate();
 
-        // const [state, dispatch] = useReducer(reducer, {
-        //     firstname: '', lastname: '', email: '', phone: '',
-        //     branch: '', regno: '', block: '', room: '', address1: '',
-        //     address2: '', city: '', formState: '', zip: '', description: '',
-        //     fromDate: new Date(), fromTime: '', toDate: new Date(), toTime: ''
-        // });
+    // useEffect(() => {
+    //     if (localStorage.getItem('authtoken')) {
+    //         console.log("authtoken", JSON.authtoken)
+    //     }
+    //     else {
+    //         navigate("/login")
+    //     }
+    // })
+  );
+};
 
-        // let navigate = useNavigate();
-
-        // useEffect(() => {
-        //     if (localStorage.getItem('authtoken')) {
-        //         console.log("authtoken", JSON.authtoken)
-        //     }
-        //     else {
-        //         navigate("/login")
-        //     }
-        // })
-    )
-}
-
-export default Passes
+export default Passes;

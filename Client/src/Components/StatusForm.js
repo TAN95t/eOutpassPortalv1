@@ -2,6 +2,18 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import { useState } from "react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
+} from "reactstrap";
 
 const schema = yup
   .object({
@@ -10,6 +22,11 @@ const schema = yup
   .required();
 
 const StatusForm = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [outpass, setOutpass] = useState([]);
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   const {
     register,
     handleSubmit,
@@ -19,25 +36,20 @@ const StatusForm = () => {
   const onSubmit = async (data) => {
     try {
       console.log("submitted");
-      const token = localStorage.getItem("authtoken");
       const result = await axios.get(
-        "http://localhost:5000/api/v1/outpass/status",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer: ${token}`,
-          },
-        }
+        `http://localhost:5000/api/v1/outpass/fetchstatus?registrationNo=${data.registrationNo}`
       );
       if (result.data.success) {
         console.log(result.data.data);
       } else {
         console.log(result.data.msg);
       }
+      setOutpass(result.data.data);
+      toggleModal();
     } catch (e) {
       console.log("Error: ", e);
     }
-    window.location = "/HomePage";
+    //window.location = "/HomePage";
   };
 
   return (
@@ -61,6 +73,44 @@ const StatusForm = () => {
           <div className="d-grid gap-2 col-4 mx-auto my-4">
             <input className="btn btn-primary" type="submit" value="Submit" />
           </div>
+          <Modal
+            centered
+            scrollable
+            size="sm"
+            toggle={toggleModal}
+            isOpen={isModalOpen}
+          >
+            <ModalHeader toggle={toggleModal}>Outpass Status</ModalHeader>
+            <ModalBody>
+              <ListGroup>
+                <ListGroupItemHeading>Student Details</ListGroupItemHeading>
+                <ListGroupItem>
+                  <ListGroupItemText>Name : {outpass.name}</ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemText>Email : {outpass.Email}</ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemText>
+                    Registration No. : {outpass.Registration}
+                  </ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemText>
+                    Status : {outpass.Status}
+                  </ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemText>
+                    Issued By : {outpass.updatedBy}
+                  </ListGroupItemText>
+                </ListGroupItem>
+              </ListGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={toggleModal}>OK</Button>
+            </ModalFooter>
+          </Modal>
         </form>
       </div>
     </div>
