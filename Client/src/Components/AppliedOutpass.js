@@ -29,12 +29,12 @@ const AppliedOutpass = () => {
   };
 
   const handleDelete = async () => {
-    const userId = outpass[0].userId;
+    const id = outpass[0]._id;
     const token = localStorage.getItem("authtoken");
     try {
       if (token) {
         const response = await axios.delete(
-          `http://localhost:5000/api/v1/outpass/deleteOutpass/:${userId}`,
+          `http://localhost:5000/api/v1/outpass/deleteOutpass/${id}`,
           {
             headers: {
               Authorization: `Bearer: ${token}`,

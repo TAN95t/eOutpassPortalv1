@@ -55,9 +55,14 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link
                     className="nav-link"
-                    /*style={localStorage.getItem('authtoken')?{display:"block"}:{display:'none'}}*/ to="/"
+                    /*style={localStorage.getItem('authtoken')?{display:"block"}:{display:'none'}}*/ to="/Passes"
                   >
                     Passes
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/ContactInfo">
+                    Contact Info
                   </Link>
                 </li>
               </ul>
