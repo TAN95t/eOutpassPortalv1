@@ -26,6 +26,7 @@ const OutpassCard = (props) => {
 
   const verifyCard = async (id, status) => {
     try {
+      console.log("verify card");
       const token = localStorage.getItem("authtoken");
       const { data } = await axios.put(
         `http://localhost:5000/api/v1/outpass/wardenspermission/${id}`,
@@ -100,7 +101,9 @@ const OutpassCard = (props) => {
           <ModalFooter>
             <Button
               color="primary"
-              onClick={verifyCard(props.outpass._id, "issued")}
+              onClick={() => {
+                verifyCard(props.outpass._id, "issued");
+              }}
             >
               Verify
             </Button>

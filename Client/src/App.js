@@ -9,6 +9,7 @@ import Passes from "./Components/Passes";
 import HomePage from "./Components/HomePage";
 import LoginPrompt from "./Components/LoginPrompt";
 import AppliedOutpass from "./Components/AppliedOutpass";
+import ContactInfo from "./Components/ContactInfo";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { useEffect } from "react";
 // import { useDispatch } from "react-redux";
@@ -32,6 +33,7 @@ const App = () => {
               <Route path="LoginPrompt" element={<LoginPrompt />} />
               <Route path="Signup" element={<Signup />} />
               <Route path="AppliedOutpass" element={<AppliedOutpass />} />
+              <Route path="ContactInfo" element={<ContactInfo />} />
             </Route>
           </Routes>
         </div>

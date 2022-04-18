@@ -13,6 +13,7 @@ import {
   ListGroupItem,
   ListGroupItemHeading,
   ListGroupItemText,
+  Badge,
 } from "reactstrap";
 
 const schema = yup
@@ -80,12 +81,42 @@ const StatusForm = () => {
             toggle={toggleModal}
             isOpen={isModalOpen}
           >
-            <ModalHeader toggle={toggleModal}>Outpass Status</ModalHeader>
+            <ModalHeader toggle={toggleModal}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "right",
+                }}
+              >
+                Outpass Status:
+                <Badge
+                  style={{
+                    marginLeft: "10px",
+                    marginTop: "4px",
+                  }}
+                  color={
+                    outpass.Status === "issued"
+                      ? "success"
+                      : outpass.Status === "applied"
+                      ? "warning"
+                      : "danger"
+                  }
+                >
+                  {outpass.Status === "applied"
+                    ? "applied"
+                    : outpass.Status === "issued"
+                    ? "issued"
+                    : "rejected"}
+                </Badge>
+              </div>
+            </ModalHeader>
             <ModalBody>
               <ListGroup>
                 <ListGroupItemHeading>Student Details</ListGroupItemHeading>
                 <ListGroupItem>
-                  <ListGroupItemText>Name : {outpass.name}</ListGroupItemText>
+                  <ListGroupItemText className="statusText">
+                    Name : {outpass.name}
+                  </ListGroupItemText>
                 </ListGroupItem>
                 <ListGroupItem>
                   <ListGroupItemText>Email : {outpass.Email}</ListGroupItemText>
@@ -95,14 +126,17 @@ const StatusForm = () => {
                     Registration No. : {outpass.Registration}
                   </ListGroupItemText>
                 </ListGroupItem>
-                <ListGroupItem>
+                {/* <ListGroupItem>
                   <ListGroupItemText>
                     Status : {outpass.Status}
                   </ListGroupItemText>
-                </ListGroupItem>
+                </ListGroupItem> */}
                 <ListGroupItem>
                   <ListGroupItemText>
-                    Issued By : {outpass.updatedBy}
+                    {outpass.Status === "issued"
+                      ? "Issued By: "
+                      : "Rejected By: "}
+                    {outpass.updatedBy}
                   </ListGroupItemText>
                 </ListGroupItem>
               </ListGroup>
