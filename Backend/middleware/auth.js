@@ -29,8 +29,10 @@ exports.protect = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
     req.user = await User.findById(decoded.id);
+
     next();
   } catch (error) {
+    console.log(error);
     return res
       .status(401)
       .json({ success: false, msg: "Not authorised to access this route" });

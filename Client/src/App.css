@@ -41,3 +41,23 @@
   border-style: double;
   color: white;
 }
+
+.applicationForm {
+  width: 50%;
+  height: 40%;
+  border: 5px;
+  margin: 10% 15%;
+  border-color: aqua;
+  border-style:outset;
+  border-radius: 100px;
+  color: white;
+  
+}
+
+/* .statusText {
+  padding: 20px;
+} */
+
+/* .appFormInput {
+  width: px;
+} */

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect } from "react";
+import TimePicker from "react-time-picker";
 // var rn = require("random-number");
 
 const ApplicationForm = () => {
@@ -58,7 +59,7 @@ const ApplicationForm = () => {
     try {
       const token = localStorage.getItem("authtoken");
       const result = await axios.post(
-        "http://localhost:5000/api/v1/outpass/",
+        "http://localhost:5000/api/v1/outpass/create",
         data,
         {
           headers: {
@@ -68,38 +69,42 @@ const ApplicationForm = () => {
       );
       if (result.data.success) {
         console.log(result.data.msg);
+      } else {
+        alert("Outpass already created");
+        console.log(result.data.msg);
       }
     } catch (e) {
       console.log("Error: ", e);
+      alert("Outpass already created");
     }
-    window.location = "/StatusForm";
+    window.location = "/AppliedOutpass";
   };
 
   return (
-    <div className="container my-5 formatting">
-      {/* <div className="row">
-                <h1 className="text-center heading">Outpass Application</h1>
-            </div> */}
-      <div className="container my-5">
-        <div className="row">
-          <h3 className="text-center">Student Details</h3>
-        </div>
-        <div className="row">
+    <div className="container">
+      <h1 className="text-center heading" style={{ color: "white" }}>
+        Outpass Application
+      </h1>
+      <div className="container my-5 formatting applicationForm">
+        <div style={{ paddingLeft: "22%" }}>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="row">
+              <h3 style={{ textAlign: "center" }}>Student Details</h3>
+            </div>
             <div className="row my-2">
-              <div className="col">
+              <div className="col-4">
                 <label className="form-label">First Name : </label>
                 <input
-                  className="form-control"
+                  className="form-control appFormInput"
                   placeholder="First name"
                   {...register("firstname")}
                 />
                 <p>{errors.firstName?.message}</p>
               </div>
-              <div className="col">
+              <div className="col-4">
                 <label className="form-label">Last Name : </label>
                 <input
-                  className="form-control"
+                  className="form-control appFormInput"
                   placeholder="Last name"
                   {...register("lastname")}
                 />
@@ -107,17 +112,17 @@ const ApplicationForm = () => {
               </div>
             </div>
             <div className="row my-2">
-              <div className="col">
+              <div className="col-4">
                 <label className="form-label">Email : </label>
                 <input
-                  className="form-control"
+                  className="form-control appFormInput"
                   placeholder="Email"
                   {...register("email")}
                 />
                 <p>{errors.email?.message}</p>
               </div>
-              <div className="col">
-                <label className="form-label">Phone : </label>
+              <div className="col-4">
+                <label className="form-label appFormInput">Phone : </label>
                 <input
                   className="form-control"
                   placeholder="Phone"
@@ -127,8 +132,8 @@ const ApplicationForm = () => {
               </div>
             </div>
             <div className="row my-2">
-              <div className="col">
-                <label className="form-label">Branch : </label>
+              <div className="col-4">
+                <label className="form-label appFormInput">Branch : </label>
                 <input
                   className="form-control"
                   placeholder="Branch"
@@ -136,8 +141,10 @@ const ApplicationForm = () => {
                 />
                 <p>{errors.branch?.message}</p>
               </div>
-              <div className="col">
-                <label className="form-label">Registration no. : </label>
+              <div className="col-4">
+                <label className="form-label appFormInput">
+                  Registration no. :{" "}
+                </label>
                 <input
                   className="form-control"
                   placeholder="Registration Number"
@@ -147,8 +154,8 @@ const ApplicationForm = () => {
               </div>
             </div>
             <div className="row my-2">
-              <div className="col">
-                <label className="form-label">Block : </label>
+              <div className="col-4">
+                <label className="form-label appFormInput">Block : </label>
                 <input
                   className="form-control"
                   placeholder="Block"
@@ -156,8 +163,8 @@ const ApplicationForm = () => {
                 />
                 <p>{errors.block?.message}</p>
               </div>
-              <div className="col">
-                <label className="form-label">Room no. : </label>
+              <div className="col-4">
+                <label className="form-label appFormInput">Room no. : </label>
                 <input
                   className="form-control"
                   placeholder="Room Number"
@@ -167,9 +174,9 @@ const ApplicationForm = () => {
               </div>
             </div>
             <div className="row">
-              <h3 className="text-center">Leave Address</h3>
+              <h3 className="text-center ">Leave Address</h3>
             </div>
-            <div className="col-12">
+            <div className="col-8">
               <label htmlFor="inputAddress" className="form-label">
                 Address 1 :{" "}
               </label>
@@ -181,7 +188,7 @@ const ApplicationForm = () => {
               />
               <p>{errors.address1?.message}</p>
             </div>
-            <div className="col-12">
+            <div className="col-8">
               <label htmlFor="inputAddress2" className="form-label">
                 Address 2 :{" "}
               </label>
@@ -194,7 +201,7 @@ const ApplicationForm = () => {
               <p>{errors.address2?.message}</p>
             </div>
             <div className="row g-3 my-2">
-              <div className="col-sm-7">
+              <div className="col-3">
                 <label className="form-label">City : </label>
                 <input
                   className="form-control"
@@ -203,7 +210,7 @@ const ApplicationForm = () => {
                 />
                 <p>{errors.city?.message}</p>
               </div>
-              <div className="col-sm">
+              <div className="col-3">
                 <label className="form-label">State : </label>
                 <input
                   className="form-control"
@@ -212,7 +219,7 @@ const ApplicationForm = () => {
                 />
                 <p>{errors.appFormState?.message}</p>
               </div>
-              <div className="col-sm">
+              <div className="col-3">
                 <label className="form-label">Zip : </label>
                 <input
                   className="form-control"
@@ -226,26 +233,28 @@ const ApplicationForm = () => {
               <h3 className="text-center">Reason For Leave</h3>
             </div>
             <div className="mb-3">
-              <label
-                htmlFor="exampleFormControlTextarea1"
-                className="form-label"
-              >
-                Description
-              </label>
-              <textarea
-                className="form-control"
-                id="exampleFormControlTextarea1"
-                rows="3"
-                {...register("description")}
-              ></textarea>
-              <p>{errors.description?.message}</p>
+              <div className="col-8">
+                <label
+                  htmlFor="exampleFormControlTextarea1"
+                  className="form-label"
+                >
+                  Description
+                </label>
+                <textarea
+                  className="form-control"
+                  id="exampleFormControlTextarea1"
+                  rows="1"
+                  {...register("description")}
+                ></textarea>
+                <p>{errors.description?.message}</p>
+              </div>
             </div>
             <div className="row">
               <h3 className="text-center">Date and Time</h3>
             </div>
             <div className="row g-3">
-              <h5 className="col-sm-1">From </h5>
-              <div className="col">
+              <label className="form-label">From : </label>
+              <div className="col-2">
                 <input
                   type="date"
                   className="form-control"
@@ -254,12 +263,17 @@ const ApplicationForm = () => {
                 />
                 <p>{errors.fromDate?.message}</p>
               </div>
-              {/* <div className="col">
-                                <input type="text" className="form-control" placeholder="Time" {...register("fromTime")} />
-                                <p>{errors.fromTime?.message}</p>
-                            </div> */}
-              <h5 className="col-sm-1">To </h5>
-              <div className="col">
+              <div className="col-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Time"
+                  {...register("fromTime")}
+                />
+                <p>{errors.fromTime?.message}</p>
+              </div>
+              <label className="form-label">To : </label>
+              <div className="col-2">
                 <input
                   type="date"
                   className="form-control"
@@ -268,10 +282,15 @@ const ApplicationForm = () => {
                 />
                 <p>{errors.toDate?.message}</p>
               </div>
-              {/* <div className="col">
-                                <input type="text" className="form-control" placeholder="Time" {...register("toTime")} />
-                                <p>{errors.toTime?.message}</p>
-                            </div> */}
+              <div className="col-2">
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Time"
+                  {...register("toTime")}
+                />
+                <p>{errors.toTime?.message}</p>
+              </div>
             </div>
             <div className="d-grid gap-2 col-4 mx-auto my-4">
               <input

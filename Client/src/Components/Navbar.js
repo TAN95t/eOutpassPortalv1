@@ -60,6 +60,11 @@ const Navbar = () => {
                     Passes
                   </Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/ContactInfo">
+                    Contact Info
+                  </Link>
+                </li>
               </ul>
               {/* {!localStorage.getItem('authtoken') ? <form className="d-flex btn-group"> */}
               {!localStorage.getItem("authtoken") ? (

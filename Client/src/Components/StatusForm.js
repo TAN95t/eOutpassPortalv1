@@ -2,6 +2,19 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
+import { useState } from "react";
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalFooter,
+  ListGroup,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
+  Badge,
+} from "reactstrap";
 
 const schema = yup
   .object({
@@ -10,6 +23,11 @@ const schema = yup
   .required();
 
 const StatusForm = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [outpass, setOutpass] = useState([]);
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
   const {
     register,
     handleSubmit,
@@ -17,21 +35,22 @@ const StatusForm = () => {
   } = useForm({ resolver: yupResolver(schema) });
 
   const onSubmit = async (data) => {
-    console.log("submitted");
     try {
+      console.log("submitted");
       const result = await axios.get(
-        "http://localhost:5000/api/v1/outpass/status",
-        data
+        `http://localhost:5000/api/v1/outpass/fetchstatus?registrationNo=${data.registrationNo}`
       );
       if (result.data.success) {
         console.log(result.data.data);
       } else {
         console.log(result.data.msg);
       }
+      setOutpass(result.data.data);
+      toggleModal();
     } catch (e) {
       console.log("Error: ", e);
     }
-    window.location = "/HomePage";
+    //window.location = "/HomePage";
   };
 
   return (
@@ -55,6 +74,77 @@ const StatusForm = () => {
           <div className="d-grid gap-2 col-4 mx-auto my-4">
             <input className="btn btn-primary" type="submit" value="Submit" />
           </div>
+          <Modal
+            centered
+            scrollable
+            size="sm"
+            toggle={toggleModal}
+            isOpen={isModalOpen}
+          >
+            <ModalHeader toggle={toggleModal}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "right",
+                }}
+              >
+                Outpass Status:
+                <Badge
+                  style={{
+                    marginLeft: "10px",
+                    marginTop: "4px",
+                  }}
+                  color={
+                    outpass.Status === "issued"
+                      ? "success"
+                      : outpass.Status === "applied"
+                      ? "warning"
+                      : "danger"
+                  }
+                >
+                  {outpass.Status === "applied"
+                    ? "applied"
+                    : outpass.Status === "issued"
+                    ? "issued"
+                    : "rejected"}
+                </Badge>
+              </div>
+            </ModalHeader>
+            <ModalBody>
+              <ListGroup>
+                <ListGroupItemHeading>Student Details</ListGroupItemHeading>
+                <ListGroupItem>
+                  <ListGroupItemText className="statusText">
+                    Name : {outpass.name}
+                  </ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemText>Email : {outpass.Email}</ListGroupItemText>
+                </ListGroupItem>
+                <ListGroupItem>
+                  <ListGroupItemText>
+                    Registration No. : {outpass.Registration}
+                  </ListGroupItemText>
+                </ListGroupItem>
+                {/* <ListGroupItem>
+                  <ListGroupItemText>
+                    Status : {outpass.Status}
+                  </ListGroupItemText>
+                </ListGroupItem> */}
+                <ListGroupItem>
+                  <ListGroupItemText>
+                    {outpass.Status === "issued"
+                      ? "Issued By: "
+                      : "Rejected By: "}
+                    {outpass.updatedBy}
+                  </ListGroupItemText>
+                </ListGroupItem>
+              </ListGroup>
+            </ModalBody>
+            <ModalFooter>
+              <Button onClick={toggleModal}>OK</Button>
+            </ModalFooter>
+          </Modal>
         </form>
       </div>
     </div>
