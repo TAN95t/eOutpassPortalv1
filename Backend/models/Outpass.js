@@ -65,9 +65,15 @@ const OutpassSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  fromTime: {
+    type: String
+  },
   toDate: {
     type: Date,
     default: Date.now,
+  },
+  toTime: {
+    type: String
   },
   applicationDate: {
     type: Date,
